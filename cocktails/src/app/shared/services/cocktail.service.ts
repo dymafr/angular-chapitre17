@@ -1,28 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Cocktail } from '../models/cocktail.model';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import { Ingredient } from '../models/ingredient.model';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import {HttpClient} from "@angular/common/http";
+import {filter, map} from "rxjs/operators";
 
 @Injectable()
 export class CocktailService {
   public cocktails: BehaviorSubject<Cocktail[]> = new BehaviorSubject(null)
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.cocktailsInit();
   }
 
   cocktailsInit(): void{
-    this.http.get('https://cocktails-63318.firebaseio.com/cocktails.json').map( res => res.json() )
+    this.http.get('https://cocktails-63318.firebaseio.com/cocktails.json')
       .subscribe( (cocktails: Cocktail[]) => {
         this.cocktails.next(cocktails);
       })
   }
 
   getCocktail(index: number): Observable<Cocktail> {
-    return this.cocktails.filter( cocktails => cocktails != null )
-            .map( cocktails => cocktails[index])
+    return this.cocktails.pipe(
+            filter( cocktails => cocktails != null ),
+			      map( cocktails => cocktails[index]))
   }
 
   addCocktail(cocktail: Cocktail): void {

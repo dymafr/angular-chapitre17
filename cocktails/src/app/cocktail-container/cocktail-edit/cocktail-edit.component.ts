@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { CocktailService } from '../../shared/services/cocktail.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Cocktail } from '../../shared/models/cocktail.model';
-import { Ingredient } from '../../shared/models/ingredient.model';
 
 @Component({
   selector: 'app-cocktail-edit',
@@ -32,7 +31,7 @@ export class CocktailEditComponent implements OnInit {
     })
   }
 
-  initForm(cocktail = { name: '', img: '', desc: '', ingredients: []}){
+  initForm(cocktail = { name: '', img: '', desc: '', ingredients: []}) {
     this.cocktailForm = this.fb.group({
       name: [cocktail.name, Validators.required],
       img: [cocktail.img, Validators.required],
@@ -41,14 +40,14 @@ export class CocktailEditComponent implements OnInit {
     })
   }
 
-  addIngredient(): void{
+  addIngredient(): void {
     (<FormArray>this.cocktailForm.get('ingredients')).push(this.fb.group({
       name: [''],
       quantity: ['']
     }))
   }
 
-  createCocktail(){
+  createCocktail() {
     if (this.edit) {
       this.cocktailService.editCocktail(this.cocktailForm.value)
     } else {

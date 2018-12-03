@@ -1,13 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { PanierService } from './shared/services/panier.service';
 import { AppComponent } from './app.component';
 import { ActiveDirective } from './shared/directives/active.directive';
 import { AppRouting } from './app.routing';
 import { CocktailModule } from './cocktail-container/cocktail.module';
 import { SharedModule } from './shared/modules/shared.module';
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { SharedModule } from './shared/modules/shared.module';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
+    HttpClientModule,
     AppRouting,
     CocktailModule,
     SharedModule
