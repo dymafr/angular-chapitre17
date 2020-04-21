@@ -1,26 +1,50 @@
-<form *ngIf="cocktailForm" [formGroup]="cocktailForm" (ngSubmit)="createCocktail()">
+<form
+  *ngIf="cocktailForm"
+  [formGroup]="cocktailForm"
+  (ngSubmit)="createCocktail()"
+>
   <div class="form-group">
     <label> Nom : </label>
     <input formControlName="name" class="form-control" type="text" />
   </div>
   <div class="form-group">
     <label> Image : </label>
-    <input  formControlName="img" class="form-control" type="text" />
+    <input formControlName="img" class="form-control" type="text" />
   </div>
   <div class="form-group">
     <label> Description : </label>
-    <textarea formControlName="desc" class="form-control" ></textarea>
+    <textarea formControlName="desc" class="form-control"></textarea>
   </div>
-  <hr>
-    <button class="btn btn-success" type="button" (click)="addIngredient()"> Ajouter ingredient </button>
-  <hr>
+  <hr />
+  <button class="btn btn-success" type="button" (click)="addIngredient()">
+    Ajouter ingredient
+  </button>
+  <hr />
+  <div formArrayName="ingredients">
     <div formArrayName="ingredients">
-      <div [formGroup]="ingredient" class="form-group row" *ngFor="let ingredient of cocktailForm.get('ingredients').controls">
-        <input placeholder="name" formControlName="name" class="form-control col-8" type="text" />
-        <input placeholder="quantity" formControlName="quantity" class="form-control col-4" type="number" />
+      <div
+        [formGroup]="ingredient"
+        class="form-group row"
+        *ngFor="let ingredient of cocktailForm.get('ingredients')['controls']"
+      >
+        <input
+          placeholder="name"
+          formControlName="name"
+          class="form-control col-8"
+          type="text"
+        />
+        <input
+          placeholder="quantity"
+          formControlName="quantity"
+          class="form-control col-4"
+          type="number"
+        />
       </div>
     </div>
-  <hr>
-  <button [disabled]="cocktailForm.invalid" class="btn btn-primary"> Sauvegarder </button>
-  <button class="btn btn-secondary" [routerLink]="['../']"> Annuler </button>
+  </div>
+  <hr />
+  <button [disabled]="cocktailForm.invalid" class="btn btn-primary">
+    Sauvegarder
+  </button>
+  <button class="btn btn-secondary" [routerLink]="['../']">Annuler</button>
 </form>
