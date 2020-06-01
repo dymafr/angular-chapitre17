@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { Cocktail } from "../models/cocktail.model";
-import { BehaviorSubject, Observable } from "rxjs";
-import { Ingredient } from "../models/ingredient.model";
-import { HttpClient } from "@angular/common/http";
-import { filter, map } from "rxjs/operators";
+import { Injectable } from '@angular/core';
+import { Cocktail } from '../models/cocktail.model';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { Ingredient } from '../models/ingredient.model';
+import { HttpClient } from '@angular/common/http';
+import { filter, map } from 'rxjs/operators';
 
 @Injectable()
 export class CocktailService {
@@ -15,7 +15,7 @@ export class CocktailService {
 
   cocktailsInit(): void {
     this.http
-      .get("https://cocktails-63318.firebaseio.com/cocktails.json")
+      .get('https://cocktails-63318.firebaseio.com/cocktails.json')
       .subscribe((cocktails: Cocktail[]) => {
         this.cocktails.next(cocktails);
       });
@@ -28,18 +28,14 @@ export class CocktailService {
     );
   }
 
-  addCocktail(cocktail: Cocktail): void {
-    const cocktails = this.cocktails.value.slice();
-    cocktails.push(
-      new Cocktail(
-        cocktail.name,
-        cocktail.img,
-        cocktail.desc,
-        cocktail.ingredients.map(
-          (ingredient) => new Ingredient(ingredient.name, ingredient.quantity)
-        )
-      )
-    );
+  addCocktail(cocktail: Cocktail) {
+    const cocktails = this.cocktails.value;
+    cocktails.push({
+      name: cocktail.name,
+      img: cocktail.img,
+      desc: cocktail.desc,
+      ingredients: cocktail.ingredients,
+    });
     this.cocktails.next(cocktails);
   }
 
@@ -54,7 +50,7 @@ export class CocktailService {
   save(): void {
     this.http
       .put(
-        "https://cocktails-63318.firebaseio.com/cocktails.json",
+        'https://cocktails-63318.firebaseio.com/cocktails.json',
         this.cocktails.value
       )
       .subscribe((res) => console.log(res));
