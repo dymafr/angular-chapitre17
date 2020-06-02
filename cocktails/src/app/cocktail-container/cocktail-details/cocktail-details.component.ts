@@ -8,25 +8,31 @@ import { ActivatedRoute, Params } from '@angular/router';
 @Component({
   selector: 'app-cocktail-details',
   templateUrl: './cocktail-details.component.html',
-  styleUrls: ['./cocktail-details.component.css']
+  styleUrls: ['./cocktail-details.component.css'],
 })
 export class CocktailDetailsComponent implements OnInit {
-
-  cocktail:Cocktail;
+  cocktail: Cocktail;
   index: number;
 
-  constructor(private activatedRoute: ActivatedRoute, private cocktailService: CocktailService, private panierService: PanierService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private cocktailService: CocktailService,
+    private panierService: PanierService
+  ) {}
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params: Params) => {
-      if(params.index) {
-        this.index = params.index;
+    this.activatedRoute.paramMap.subscribe((params: Params) => {
+      if (params.get('index')) {
+        this.index = params.get('index');
       } else {
         this.index = 0;
       }
-      this.cocktailService.getCocktail(this.index).subscribe( (cocktail: Cocktail) => {
-        this.cocktail = cocktail;
-      });
+
+      this.cocktailService
+        .getCocktail(this.index)
+        .subscribe((cocktail: Cocktail) => {
+          this.cocktail = cocktail;
+        });
     });
   }
 
@@ -37,5 +43,4 @@ export class CocktailDetailsComponent implements OnInit {
   getUrl() {
     return ['/cocktails', this.index, 'edit'];
   }
-
 }

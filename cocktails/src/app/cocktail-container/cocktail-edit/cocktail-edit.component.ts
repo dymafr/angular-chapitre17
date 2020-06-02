@@ -1,13 +1,13 @@
-import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormBuilder, Validators, FormArray } from "@angular/forms";
-import { CocktailService } from "../../shared/services/cocktail.service";
-import { ActivatedRoute, Params } from "@angular/router";
-import { Cocktail } from "../../shared/models/cocktail.model";
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { CocktailService } from '../../shared/services/cocktail.service';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Cocktail } from '../../shared/models/cocktail.model';
 
 @Component({
-  selector: "app-cocktail-edit",
-  templateUrl: "./cocktail-edit.component.html",
-  styleUrls: ["./cocktail-edit.component.css"],
+  selector: 'app-cocktail-edit',
+  templateUrl: './cocktail-edit.component.html',
+  styleUrls: ['./cocktail-edit.component.css'],
 })
 export class CocktailEditComponent implements OnInit {
   public cocktailForm: FormGroup;
@@ -21,11 +21,11 @@ export class CocktailEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe((params: Params) => {
-      if (params.index) {
+    this.activatedRoute.paramMap.subscribe((params: Params) => {
+      if (params.get('index')) {
         this.edit = true;
         this.cocktailService
-          .getCocktail(params.index)
+          .getCocktail(params.get('index'))
           .subscribe((cocktail: Cocktail) => {
             this.cocktail = cocktail;
             this.initForm(this.cocktail);
@@ -37,7 +37,7 @@ export class CocktailEditComponent implements OnInit {
     });
   }
 
-  initForm(cocktail = { name: "", img: "", desc: "", ingredients: [] }) {
+  initForm(cocktail = { name: '', img: '', desc: '', ingredients: [] }) {
     this.cocktailForm = this.fb.group({
       name: [cocktail.name, Validators.required],
       img: [cocktail.img, Validators.required],
@@ -54,10 +54,10 @@ export class CocktailEditComponent implements OnInit {
   }
 
   addIngredient(): void {
-    (this.cocktailForm.get("ingredients") as FormArray).push(
+    (this.cocktailForm.get('ingredients') as FormArray).push(
       this.fb.group({
-        name: [""],
-        quantity: [""],
+        name: [''],
+        quantity: [''],
       })
     );
   }
