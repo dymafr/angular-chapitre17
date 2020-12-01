@@ -5,4 +5,4 @@ const APP_ROUTE: Route[] = [
   { path: 'panier', loadChildren: () => import('app/panier/panier.module').then(m => m.PanierModule) },
 ];
 
-export const AppRouting = RouterModule.forRoot(APP_ROUTE);
+export const AppRouting = RouterModule.forRoot(APP_ROUTE, { relativeLinkResolution: 'legacy' });
